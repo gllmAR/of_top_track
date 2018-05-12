@@ -1,0 +1,13 @@
+*.app
+*.DS_Store
+*.d
+*.o
+bin/libfmodex.so  
+bin/oscillographe 
+obj/linux64/  
+obj/linuxarmv7l/
+oscillographe.xcodeproj/xuserdata
+*.xcodeproj
+openFrameworks-Info.plist
+Project.xcconfig
+
