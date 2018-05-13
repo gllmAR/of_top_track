@@ -1,0 +1,10 @@
+
+bin/libfmodex.so
+bin/of_top_track
+src/._main.cpp
+src/._ofApp.cpp
+src/._ofApp.h
+src/._zone.cpp
+src/._zone.h
+obj/*
+
