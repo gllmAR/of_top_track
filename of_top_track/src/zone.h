@@ -4,19 +4,19 @@
 #include "ofMain.h"
 #include "ofxOpenCv.h"
 #include "ofxGui.h"
+#include "ofxOsc.h"
 
 class Zone {
 public:
     
-    void setup();
+    void setup(std::string calib_name, int kinect_id, int zone_id);
     void update(ofxCvGrayscaleImage _depth_image);
-    void set_ROI_b_changed(bool &b);
-    void set_crop_changed(float &f);
+    void blobs_to_osc();
     void draw();
+    void draw_rect();
     void exit();
     
 
-    void set_ROI();
 
     
     ofxCvGrayscaleImage depth_image; // grayscale depth image
@@ -45,14 +45,22 @@ public:
     ofxGuiGroup gui_depth;
     ofxGuiGroup gui_contour;
 
-    ofParameter <bool> set_ROI_b;
+    ofParameter <bool> enable;
     ofParameter <int> crop_width;
     ofParameter <int> crop_height;
     ofParameter <int> crop_x;
     ofParameter <int> crop_y;
 
     bool draw_gui = 1;
+    bool reset_roi_flag =0;
+
+    vector <ofxOscMessage> osc_blobs;
+
+    int kinect_id;
+    int zone_id;
+    std::string kinect_zone_id;
+    std::string save_path;
+    std::string osc_path;
 
     
-    // used for viewing the point cloud
 };
