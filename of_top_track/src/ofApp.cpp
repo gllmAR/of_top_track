@@ -1,31 +1,13 @@
 #include "ofApp.h"
-
-
+#define NUM_ZONES 16
 //--------------------------------------------------------------
 void ofApp::setup() {
 
     ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetWindowTitle("kinect zones tracker");
 
     
-    // enable depth->video image calibration
-    kinect.setRegistration(true);
-    
-    kinect.init();
-    //kinect.init(true); // shows infrared instead of RGB video image
-    //kinect.init(false, false); // disable video image (faster fps)
-    
-    kinect.open();        // opens first available kinect
-    //kinect.open(1);    // open a kinect by id, starting with 0 (sorted by serial # lexicographically))
-    //kinect.open("A00362A08602047A");    // open a kinect using it's unique serial #
-    
-    // print the intrinsic IR sensor values
-    if(kinect.isConnected()) {
-        ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
-        ofLogNotice() << "sensor-camera dist:  " << kinect.getSensorCameraDistance() << "cm";
-        ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
-        ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
-    }
-    
+
     
     color_image.allocate(kinect.width, kinect.height);
     depth_image.allocate(kinect.width, kinect.height);
@@ -34,12 +16,14 @@ void ofApp::setup() {
     //zone1.setup("test", 0, 1);
     
     panel.setup("tracker", TRACKER_JSON, 10, 10);
+    panel.add(draw_enabled.set("draw_enabled",1));
+    panel.add(RGB_enabled.set("RGB_enabled",0));
     panel.add(osc_sender_host.set("osc_host","localhost"));
     panel.add(osc_sender_port.set("osc_port", "12345"));
     panel.add(calib_name.set("calib_name","change_me"));
     panel.add(kinect_id.set("kinect_id",0,0,9));
-    panel.add(zone_ammount.set("zone_ammount",3,1,3));
-    panel.add(selected_zone.set("selected_zone",0,0,3));
+    panel.add(zone_ammount.set("zone_ammount",16,1,NUM_ZONES));
+    panel.add(selected_zone.set("selected_zone",0,0,NUM_ZONES));
 
     panel.loadFromFile(TRACKER_JSON);
 
@@ -54,6 +38,25 @@ void ofApp::setup() {
     kinect_id.addListener(this, &ofApp::kinect_id_changed);
 
     ofSetFrameRate(60);
+    
+        // enable depth->video image calibration
+    kinect.setRegistration(true);
+    
+    kinect.init(true, RGB_enabled);
+    //kinect.init(true); // shows infrared instead of RGB video image
+    //kinect.init(false, false); // disable video image (faster fps)
+    
+    kinect.open();        // opens first available kinect
+    //kinect.open(1);    // open a kinect by id, starting with 0 (sorted by serial # lexicographically))
+    //kinect.open("A00362A08602047A");    // open a kinect using it's unique serial #
+    
+    // print the intrinsic IR sensor values
+    if(kinect.isConnected()) {
+        ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
+        ofLogNotice() << "sensor-camera dist:  " << kinect.getSensorCameraDistance() << "cm";
+        ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
+        ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
+    }
     
 
 } 
@@ -105,7 +108,8 @@ void ofApp::update() {
 //--------------------------------------------------------------
 void ofApp::draw() 
 {
-           
+     if(draw_enabled)
+     {     
     // draw instructions
     ofSetColor(255, 255, 255);
     
@@ -122,7 +126,7 @@ void ofApp::draw()
     } else {
     zones[selected_zone-1].draw();
     }
-            
+     }        
 panel.draw();
         
 }

@@ -46,6 +46,9 @@ public:
     void calib_name_changed(std::string &s);
     ofParameter<int> kinect_id;
     void kinect_id_changed(int &i);
+    ofParameter<bool> draw_enabled;
+    ofParameter<bool> RGB_enabled;
+    
 
     void set_zones();
     void set_sender();
