@@ -90,15 +90,21 @@ void ofApp::update() {
     if(kinect.isFrameNew()) {
         // load grayscale depth image from the kinect source
         depth_image.setFromPixels(kinect.getDepthPixels());
-
+        // clear message
+        zones_presence.clear();
         for (int i =0; i<zones.size(); i++ )
         {
-            zones[i].update(depth_image);
-            for (ofxOscMessage m : zones[i].osc_blobs)
+            zones[i].update(depth_image); // update zones
+            //append blob count to message  
+            zones_presence.addIntArg(zones[i].blobs_count);
+            for (ofxOscMessage m : zones[i].osc_blobs) // for each zone send OSC
             {
-                osc_sender.sendMessage(m, false);
+               // osc_sender.sendMessage(m, false);
             }
         }
+        //send meta list
+        zones_presence.setAddress("/zones/presence");
+        osc_sender.sendMessage(zones_presence, false);
     }
 
 

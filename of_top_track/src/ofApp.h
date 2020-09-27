@@ -34,6 +34,7 @@ public:
     ofxCvColorImage color_image;
     ofxCvGrayscaleImage depth_image; // grayscale depth image
     
+    
 
     ofParameter<std::string> osc_sender_host;
     void osc_sender_host_changed(std::string &s);
@@ -58,4 +59,5 @@ public:
     
     ofxPanel panel;
     ofxOscSender osc_sender;
+    ofxOscMessage zones_presence;
 };

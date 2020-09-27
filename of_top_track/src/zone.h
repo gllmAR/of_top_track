@@ -28,6 +28,7 @@ public:
 
     ofxCvContourFinder contour_finder;
 
+    int blobs_count;
 
     
     bool bThreshWithOpenCV;

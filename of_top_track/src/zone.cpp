@@ -70,6 +70,7 @@ void Zone::update(ofxCvGrayscaleImage _depth_image)
     contour_finder.findContours(depth_image_crop, 10, (input_width*input_height)/2, 20, false);
 
     blobs_to_osc();
+    blobs_count=contour_finder.nBlobs;
 
     } else {
         osc_blobs.clear();
@@ -87,7 +88,7 @@ void Zone::blobs_to_osc()
     ofxOscMessage m;
 
     m.setAddress(osc_path);
-    // blob id, blob total, area
+    // blob id, blob total, area (x and y relative?)
     m.addInt32Arg(i);
     m.addInt32Arg(contour_finder.nBlobs);
     m.addInt32Arg(contour_finder.blobs.at(i).area);  
