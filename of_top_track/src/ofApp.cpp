@@ -19,7 +19,7 @@ void ofApp::setup() {
     panel.add(draw_enabled.set("draw_enabled",1));
     panel.add(RGB_enabled.set("RGB_enabled",0));
     panel.add(osc_sender_host.set("osc_host","localhost"));
-    panel.add(osc_sender_port.set("osc_port", "12345"));
+    panel.add(osc_sender_port.set("osc_port", "54321"));
     panel.add(calib_name.set("calib_name","change_me"));
     panel.add(kinect_id.set("kinect_id",0,0,9));
     panel.add(zone_ammount.set("zone_ammount",16,1,NUM_ZONES));
@@ -42,7 +42,8 @@ void ofApp::setup() {
         // enable depth->video image calibration
     kinect.setRegistration(true);
     
-    kinect.init(true, RGB_enabled);
+    kinect.init();
+    //kinect.init(true, RGB_enabled);
     //kinect.init(true); // shows infrared instead of RGB video image
     //kinect.init(false, false); // disable video image (faster fps)
     
@@ -86,23 +87,24 @@ void ofApp::update() {
     
     kinect.update();
     
-    // there is a new frame and we are connected
+    /* there is a new frame and we are connected*/
     if(kinect.isFrameNew()) {
-        // load grayscale depth image from the kinect source
+        /* load grayscale depth image from the kinect source*/
         depth_image.setFromPixels(kinect.getDepthPixels());
-        // clear message
+        /* clear message*/
         zones_presence.clear();
         for (int i =0; i<zones.size(); i++ )
         {
-            zones[i].update(depth_image); // update zones
+            /* update zones*/ 
+            zones[i].update(depth_image); 
             //append blob count to message  
             zones_presence.addIntArg(zones[i].blobs_count);
-            for (ofxOscMessage m : zones[i].osc_blobs) // for each zone send OSC
-            {
-               // osc_sender.sendMessage(m, false);
-            }
+            // for (ofxOscMessage m : zones[i].osc_blobs) // for each zone send OSC
+            // {
+            //    // osc_sender.sendMessage(m, false);
+            // }
         }
-        //send meta list
+        /*send meta list*/
         zones_presence.setAddress("/zones/presence");
         osc_sender.sendMessage(zones_presence, false);
     }
@@ -121,8 +123,10 @@ void ofApp::draw()
     
     // draw from the live kinect
     kinect.drawDepth(220, 10, 320, 240);
-    kinect.draw(620, 10, 320, 240);
-        
+    if(RGB_enabled)
+    {
+        kinect.draw(620, 10, 320, 240);
+    }    
         for (int i =0; i<zones.size(); i++ )
         {
             zones[i].draw_rect();

@@ -6,7 +6,8 @@ endif
 
 # make sure the the OF_ROOT location is defined
 ifndef OF_ROOT
-	OF_ROOT=$(realpath ../../../../../../Documents/_gllm/of_git/openFrameworks/../../../../../../Documents/_gllm/of_git/openFrameworks/Documents/_gllm/of_git/openFrameworks)
+	#OF_ROOT=$(realpath ../../../../../../Documents/_gllm/of_git/openFrameworks/../../../../../../Documents/_gllm/of_git/openFrameworks/Documents/_gllm/of_git/openFrameworks)
+	OF_ROOT=/home/pi/src/of_v0.11.0_linuxarmv6l_release
 endif
 
 # call the project makefile!

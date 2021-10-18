@@ -23,9 +23,10 @@ void Zone::setup(std::string _calib_name, int _kinect_id, int _zone_id) {
     osc_path += "/";
     osc_path += ofToString(zone_id);
     osc_path += "/";
+    // cout<<osc_path<<endl;
     
 
-    cout<<kinect_zone_id<<" "<<save_path<<endl;
+    // cout<<kinect_zone_id<<" "<<save_path<<endl;
 
 	gui.setup(kinect_zone_id, save_path, 10, 400);
 
