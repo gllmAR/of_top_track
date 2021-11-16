@@ -1,5 +1,5 @@
 #include "ofApp.h"
-#define NUM_ZONES 16
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 
@@ -42,8 +42,8 @@ void ofApp::setup() {
         // enable depth->video image calibration
     kinect.setRegistration(true);
     
-    kinect.init();
-    //kinect.init(true, RGB_enabled);
+    //kinect.init();
+    kinect.init(false, RGB_enabled);
     //kinect.init(true); // shows infrared instead of RGB video image
     //kinect.init(false, false); // disable video image (faster fps)
     
@@ -65,8 +65,8 @@ void ofApp::setup() {
 //--------------------------------------------------------------
 void ofApp::set_zones()
 {
-    zones.clear();
-    zones.resize(zone_ammount);
+//    zones.clear();
+//    zones.resize(zone_ammount);
     for (int i =0; i<zone_ammount; i++)
     {
         zones[i].setup(calib_name,kinect_id,i+1);
@@ -93,7 +93,7 @@ void ofApp::update() {
         depth_image.setFromPixels(kinect.getDepthPixels());
         /* clear message*/
         zones_presence.clear();
-        for (int i =0; i<zones.size(); i++ )
+        for (int i =0; i<zone_ammount; i++ )
         {
             /* update zones*/ 
             zones[i].update(depth_image); 
@@ -127,7 +127,7 @@ void ofApp::draw()
     {
         kinect.draw(620, 10, 320, 240);
     }    
-        for (int i =0; i<zones.size(); i++ )
+        for (int i =0; i<zone_ammount; i++ )
         {
             zones[i].draw_rect();
         }

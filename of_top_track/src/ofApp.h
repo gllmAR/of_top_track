@@ -1,5 +1,7 @@
 #pragma once
 
+#define NUM_ZONES 16
+
 #include "ofMain.h"
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
@@ -53,7 +55,7 @@ public:
 
     void set_zones();
     void set_sender();
-    std::vector<Zone> zones;
+    Zone zones[NUM_ZONES];
 
     //Zone zone1;
     
