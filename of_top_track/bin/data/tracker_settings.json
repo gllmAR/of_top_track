@@ -7,7 +7,7 @@
         "osc_host": "192.168.18.255",
         "osc_port": "54322",
         "save_config": "1",
-        "selected_zone": "1",
-        "zone_ammount": "12"
+        "selected_zone": "16",
+        "zone_ammount": "16"
     }
 }

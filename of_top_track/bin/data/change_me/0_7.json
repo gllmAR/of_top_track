@@ -1,11 +1,11 @@
 {
-    "1_7": {
-        "crop_height": "150",
-        "crop_width": "150",
+    "0_7": {
+        "crop_width": "160",
+        "crop_height": "120",
         "enable": "1",
-        "far_threshold": "61",
-        "near_threshold": "255",
-        "offset_x": "329",
-        "offset_y": "158"
+        "far_threshold": "70",
+        "near_threshold": "230",
+        "offset_x": "320",
+        "offset_y": "120"
     }
 }
