@@ -4,25 +4,8 @@
 //--------------------------------------------------------------
 void Zone::setup(std::string _calib_name, int _kinect_id, int _zone_id) {
 
-    zone_id=_zone_id;
-    kinect_id=_kinect_id;
+    set_paths(_calib_name, _kinect_id, _zone_id);
 
-    kinect_zone_id = ofToString(kinect_id);
-    kinect_zone_id += "_";
-    kinect_zone_id += ofToString(zone_id);
-
-    save_path = _calib_name;
-    save_path += "/";
-    save_path += kinect_zone_id;
-    save_path += ".json";
-
-    osc_path = "/";
-    osc_path += _calib_name;
-    osc_path += "/";
-    osc_path += ofToString(kinect_id);
-    osc_path += "/";
-    osc_path += ofToString(zone_id);
-    osc_path += "/";
     // cout<<osc_path<<endl;
     
 
@@ -48,6 +31,35 @@ void Zone::setup(std::string _calib_name, int _kinect_id, int _zone_id) {
  	
     gui.loadFromFile(save_path);
 }
+
+void Zone::set_paths(std::string _calib_name, int _kinect_id, int _zone_id) 
+{
+     zone_id=_zone_id;
+    kinect_id=_kinect_id;
+
+    kinect_zone_id = ofToString(kinect_id);
+    kinect_zone_id += "_";
+    kinect_zone_id += ofToString(zone_id);
+
+    save_path = _calib_name;
+    save_path += "/";
+    save_path += kinect_zone_id;
+    save_path += ".json";
+
+    osc_path = "/";
+    osc_path += _calib_name;
+    osc_path += "/";
+    osc_path += ofToString(kinect_id);
+    osc_path += "/";
+    osc_path += ofToString(zone_id);
+    osc_path += "/";
+}
+
+void Zone::save_zone()
+{
+    gui.saveToFile(save_path);
+}
+
 
 //--------------------------------------------------------------
 void Zone::update(ofxCvGrayscaleImage _depth_image) 
@@ -81,6 +93,7 @@ void Zone::update(ofxCvGrayscaleImage _depth_image)
 }
 
 
+
 void Zone::blobs_to_osc()
 {
     osc_blobs.clear();
@@ -106,12 +119,31 @@ if (enable)
     ofPushMatrix();
     ofPushStyle();
     ofTranslate(220,10);
-    ofSetColor(0,255,0);
+    if(blobs_count==0)
+    {
+        ofSetColor(0,255,0);
+    }else{
+        ofSetColor(255,255,0);
+    }
+    
     ofNoFill();
     ofDrawRectangle(crop_x/2, crop_y/2, crop_width/2, crop_height/2);
     ofPopStyle();
     ofPopMatrix();
     }
+}
+//--------------------------------------------------------------
+
+bool Zone::clic_inside(int x, int y) 
+{
+    int rect_offset_x = 220;
+    int rect_offset_y = 10;
+     bool check = false;
+     if (x > rect_offset_x + crop_x/2 && x < rect_offset_x + crop_x/2+crop_width/2 &&  y > rect_offset_y + crop_y/2 && y < rect_offset_y + crop_y/2+crop_height/2)
+     {
+        check = true;
+     }
+    return check;
 }
 
 //--------------------------------------------------------------

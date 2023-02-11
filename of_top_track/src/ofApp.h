@@ -52,6 +52,8 @@ public:
     ofParameter<bool> draw_enabled;
     ofParameter<bool> RGB_enabled;
     
+    ofParameter<bool> save_config;
+    void save_config_changed(bool &b);
 
     void set_zones();
     void set_sender();

@@ -1,7 +1,7 @@
 {
-    "0_1": {
-        "crop_height": "139",
-        "crop_width": "192",
+    "1_1": {
+        "crop_height": "150",
+        "crop_width": "150",
         "enable": "1",
         "far_threshold": "61",
         "near_threshold": "255",

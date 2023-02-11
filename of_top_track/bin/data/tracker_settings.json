@@ -3,10 +3,11 @@
         "RGB_enabled": "1",
         "calib_name": "change_me",
         "draw_enabled": "1",
-        "kinect_id": "1",
-        "osc_host": "dm-main.local",
-        "osc_port": "54321",
-        "selected_zone": "12",
+        "kinect_id": "0",
+        "osc_host": "192.168.18.255",
+        "osc_port": "54322",
+        "save_config": "1",
+        "selected_zone": "1",
         "zone_ammount": "12"
     }
 }

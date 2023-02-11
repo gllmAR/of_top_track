@@ -16,6 +16,7 @@ void ofApp::setup() {
     //zone1.setup("test", 0, 1);
     
     panel.setup("tracker", TRACKER_JSON, 10, 10);
+    panel.add(save_config.set("save_config",0));
     panel.add(draw_enabled.set("draw_enabled",1));
     panel.add(RGB_enabled.set("RGB_enabled",0));
     panel.add(osc_sender_host.set("osc_host","localhost"));
@@ -26,11 +27,17 @@ void ofApp::setup() {
     panel.add(selected_zone.set("selected_zone",0,0,NUM_ZONES));
 
     panel.loadFromFile(TRACKER_JSON);
-
+    save_config=0;
 
     set_zones();
+    for (int i =0; i<NUM_ZONES; i++)
+    {
+        zones[i].setup(calib_name,kinect_id,i+1);
+    }
+
     set_sender();
     
+    save_config.addListener(this, &ofApp::save_config_changed);
     osc_sender_host.addListener(this, &ofApp::osc_sender_host_changed);
     osc_sender_port.addListener(this, &ofApp::osc_sender_port_changed);
     zone_ammount.addListener(this, &ofApp::zone_ammount_changed);
@@ -59,19 +66,25 @@ void ofApp::setup() {
         ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
     }
     
+    
 
 } 
 
 //--------------------------------------------------------------
 void ofApp::set_zones()
 {
-//    zones.clear();
-//    zones.resize(zone_ammount);
-    for (int i =0; i<zone_ammount; i++)
+
+    //for (int i =0; i<zone_ammount; i++)
+    for (int i =0; i<NUM_ZONES; i++)
     {
-        zones[i].setup(calib_name,kinect_id,i+1);
+        zones[i].set_paths(calib_name,kinect_id,i+1);
     }
     selected_zone.setMax(zone_ammount);
+    selected_zone =selected_zone;
+    if(selected_zone<zone_ammount)
+    {
+        selected_zone=zone_ammount;
+    }
 
 }
 
@@ -151,7 +164,15 @@ void ofApp::exit()
 
 
 //--------------------------------------------------------------
-void ofApp::keyPressed (int key) {
+void ofApp::keyPressed (int key) 
+{
+    if (selected_zone!=0)
+    {
+        if(key == OF_KEY_LEFT) {zones[selected_zone-1].crop_x--;}
+        if(key == OF_KEY_RIGHT) {zones[selected_zone-1].crop_x++;}
+        if(key == OF_KEY_UP) {zones[selected_zone-1].crop_y--;}
+        if(key == OF_KEY_DOWN) {zones[selected_zone-1].crop_y++;}
+    }
 
 }
 
@@ -164,7 +185,13 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    
+    for (int i =0; i<zone_ammount; i++)
+    {
+        if(zones[i].clic_inside(x,y))
+        {
+            selected_zone=i+1;
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -207,10 +234,29 @@ void ofApp::zone_ammount_changed(int &i)
 
 void ofApp::calib_name_changed(std::string &s)
 {
+    for (int i =0; i<NUM_ZONES; i++)
+    {
+        zones[i].setup(calib_name,kinect_id,i+1);
+    }
     set_zones();
 }
 
 void ofApp::kinect_id_changed(int &i)
 {
     set_zones();
+}
+
+//--------------------------------------------------------------
+
+void ofApp::save_config_changed(bool &b)
+{
+    if(save_config==1)
+    {
+        panel.saveToFile(TRACKER_JSON);
+        for (int i =0; i<zone_ammount; i++ )
+        {
+            zones[i].save_zone();
+        }
+        save_config=0;
+    }
 }

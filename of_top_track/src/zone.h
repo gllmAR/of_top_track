@@ -11,6 +11,9 @@ public:
     
     void setup(std::string calib_name, int kinect_id, int zone_id);
     void update(ofxCvGrayscaleImage _depth_image);
+    void save_zone();
+    void set_paths(std::string _calib_name, int _kinect_id, int _zone_id);
+    bool clic_inside(int x, int y);
     void blobs_to_osc();
     void draw();
     void draw_rect();
