@@ -3,7 +3,7 @@ Description=of_top_track
 
 [Service]
 ExecStartPre=/bin/sh -c 'while ! pgrep Xorg; do sleep 2; done'
-ExecStart=/home/pi/src/of_v0.11.0_linuxarmv6l_release/apps/of_top_track/of_top_track/bin/of_top_track
+ExecStart=/home/pi/src/dm-main/of_top_track/of_top_track/bin/of_top_track
 Restart=always
 RestartSec=5
 

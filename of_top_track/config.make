@@ -9,7 +9,7 @@
 #       (default) OF_ROOT = ../../../../../../Documents/_gllm/of_git/openFrameworks/../../../../../../Documents/_gllm/of_git/openFrameworks/Documents/_gllm/of_git/openFrameworks 
 ################################################################################
 # OF_ROOT = ../../../../../../Documents/_gllm/of_git/openFrameworks/../../../../../../Documents/_gllm/of_git/openFrameworks/Documents/_gllm/of_git/openFrameworks
-
+OF_ROOT=../../../openFrameworks
 ################################################################################
 # PROJECT ROOT
 #   The location of the project - a starting place for searching for files
